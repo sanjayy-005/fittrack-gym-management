@@ -1,0 +1,45 @@
+# Render Blueprint for the FitTrack API (Django).
+# In Render: New + > Blueprint > pick your GitHub repo. Render reads this file.
+# The frontend is deployed separately on Vercel (see README.md).
+services:
+  - type: web
+    name: fittrack-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/health/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_ENGINE
+        value: mysql
+      # Render has no MySQL service: use an external MySQL host and fill these in the dashboard.
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_SSL_CA
+        value: /etc/ssl/certs/ca-certificates.crt
+      # Your Vercel address, e.g. https://fittrack.vercel.app (no trailing slash).
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+      - key: TIME_ZONE
+        value: Asia/Kolkata
+      # Loads demo data on the first deploy (skipped if the database already has data).
+      # Set to "false" afterwards, and change the demo passwords before sharing the link.
+      - key: SEED_DEMO_DATA
+        value: "true"

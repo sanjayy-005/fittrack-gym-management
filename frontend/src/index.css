@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink-950 font-sans text-ink-100 antialiased;
+  }
+  ::selection {
+    @apply bg-brand-500/40;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #3a3a44 transparent;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-ink-700 bg-ink-800/80;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-ink-300;
+  }
+  .input {
+    @apply w-full rounded-xl border border-ink-600 bg-ink-900 px-3.5 py-2.5 text-sm text-ink-100 transition placeholder:text-ink-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .input-error {
+    @apply border-red-500/70 focus:border-red-500 focus:ring-red-500/30;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply bg-brand-500 text-ink-950 hover:bg-brand-400 active:bg-brand-600;
+  }
+  .btn-secondary {
+    @apply border border-ink-600 bg-ink-700 text-ink-100 hover:bg-ink-600;
+  }
+  .btn-ghost {
+    @apply text-ink-200 hover:bg-ink-700;
+  }
+  .btn-danger {
+    @apply bg-red-500/90 text-white hover:bg-red-500;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .icon-btn {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-300 transition hover:bg-ink-600 hover:text-ink-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .table {
+    @apply w-full text-left text-sm;
+  }
+  .table th {
+    @apply whitespace-nowrap border-b border-ink-700 bg-ink-900/60 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-ink-300;
+  }
+  .table td {
+    @apply border-b border-ink-700/60 px-4 py-3 align-middle;
+  }
+  .table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .table tbody tr:hover {
+    @apply bg-ink-700/30;
+  }
+}
+
+/* Receipts are printed on white paper: only the receipt itself is shown when printing. */
+@page {
+  margin: 12mm;
+}
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #receipt-print,
+  #receipt-print * {
+    visibility: visible !important;
+  }
+  #receipt-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none !important;
+  }
+}
